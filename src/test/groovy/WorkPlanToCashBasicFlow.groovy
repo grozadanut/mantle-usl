@@ -181,16 +181,16 @@ class WorkPlanToCashBasicFlow extends Specification {
         clientRateResult = ec.service.sync().name("create#mantle.humanres.rate.RateAmount")
                 .parameters([rateTypeEnumId:'RatpStandard', ratePurposeEnumId:'RaprClient', timePeriodUomId:'TF_hr',
                     emplPositionClassId:'Programmer', fromDate:'1265184000000', rateAmount:'60.00',
-                    rateCurrencyUomId:'USD', partyId:workerResult.partyId]).call()
+                    rateCurrencyUomId:'RON', partyId:workerResult.partyId]).call()
         vendorRateResult = ec.service.sync().name("create#mantle.humanres.rate.RateAmount")
                 .parameters([rateTypeEnumId:'RatpStandard', ratePurposeEnumId:'RaprVendor', timePeriodUomId:'TF_hr',
                     emplPositionClassId:'Programmer', fromDate:'1265184000000', rateAmount:'40.00',
-                    rateCurrencyUomId:'USD', partyId:workerResult.partyId]).call()
+                    rateCurrencyUomId:'RON', partyId:workerResult.partyId]).call()
         // no charge rate, still pay vendor (using default 0 amount rate for client no explicit create for that)
         ec.service.sync().name("create#mantle.humanres.rate.RateAmount")
                 .parameters([rateTypeEnumId:'RatpNoCharge', ratePurposeEnumId:'RaprVendor', timePeriodUomId:'TF_hr',
                              emplPositionClassId:'Programmer', fromDate:'1265184000000', rateAmount:'40.00',
-                             rateCurrencyUomId:'USD']).call()
+                             rateCurrencyUomId:'RON']).call()
 
         // NOTE: this has sequenced IDs so is sensitive to run order!
         List<String> dataCheckErrors = ec.entity.makeDataLoader().xmlText("""<entity-facade-xml>
@@ -210,10 +210,10 @@ class WorkPlanToCashBasicFlow extends Specification {
 
             <mantle.humanres.rate.RateAmount rateAmountId="${clientRateResult.rateAmountId}" rateTypeEnumId="RatpStandard"
                 ratePurposeEnumId="RaprClient" timePeriodUomId="TF_hr" partyId="${workerResult.partyId}"
-                emplPositionClassId="Programmer" fromDate="1265184000000" rateAmount="60.00" rateCurrencyUomId="USD"/>
+                emplPositionClassId="Programmer" fromDate="1265184000000" rateAmount="60.00" rateCurrencyUomId="RON"/>
             <mantle.humanres.rate.RateAmount rateAmountId="${vendorRateResult.rateAmountId}" rateTypeEnumId="RatpStandard"
                 ratePurposeEnumId="RaprVendor" timePeriodUomId="TF_hr" partyId="${workerResult.partyId}"
-                emplPositionClassId="Programmer" fromDate="1265184000000" rateAmount="40.00" rateCurrencyUomId="USD"/>
+                emplPositionClassId="Programmer" fromDate="1265184000000" rateAmount="40.00" rateCurrencyUomId="RON"/>
 
             <moqui.entity.EntityAuditLog auditHistorySeqId="55903" changedEntityName="mantle.party.Party"
                 changedFieldName="disabled" pkPrimaryValue="${workerResult.partyId}" newValueText="N" changedDate="${effectiveTime}"
@@ -301,7 +301,7 @@ class WorkPlanToCashBasicFlow extends Specification {
         when:
         ec.service.sync().name("mantle.work.ProjectServices.create#Project")
                 .parameters([workEffortId:'TEST', workEffortName:'Test Proj', clientPartyId:clientResult.partyId,
-                    vendorPartyId:vendorResult.partyId, totalClientCostAllowed:"2000", costUomId:"USD"])
+                    vendorPartyId:vendorResult.partyId, totalClientCostAllowed:"2000", costUomId:"RON"])
                 .call()
         ec.service.sync().name("mantle.work.ProjectServices.update#Project")
                 .parameters([workEffortId:'TEST', workEffortName:'Test Project', statusId:'WeInProgress'])
