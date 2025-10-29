@@ -390,6 +390,7 @@ along with this software (see the LICENSE.md file). If not, see
                 <id name="productPriceId">
                     <method type="get"><entity name="mantle.product.ProductPrice" operation="one"/></method>
                     <method type="patch"><entity name="mantle.product.ProductPrice" operation="update"/></method>
+                    <method type="put"><entity name="mantle.product.ProductPrice" operation="store"/></method>
                     <method type="delete"><entity name="mantle.product.ProductPrice" operation="delete"/></method>
                 </id>
             </resource>
